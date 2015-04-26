@@ -7,7 +7,8 @@ ENV GO_SERVER_PORT 8153
 #--[ DO NOT MODIFY BELOW THIS POINT ]------------------------------------
 
 ENV GOCD_VERSION 14.4.0
-ENV GOCD_BUILD 1356
+ENV GOCD_BUILD   1356
+ENV GOCD_DEB     go-agent-${GOCD_VERSION}-${GOCD_BUILD}.deb
 
 # install oracle jdk 7
 RUN sed 's/main$/main universe/' -i /etc/apt/sources.list
@@ -24,16 +25,15 @@ ENV JAVA_HOME /usr/lib/jvm/java-7-oracle
 RUN apt-get update && apt-get install -y curl wget unzip ruby1.9.3
 
 # install go-agent
-ENV AGENT_WORK_DIR /var/lib/go-agent/pipelines
+ENV AGENT_WORK_DIR /var/lib/go-agent
 ENV DAEMON N
 VOLUME ${AGENT_WORK_DIR}
-RUN curl -L -o /tmp/gocd-agent.zip http://download.go.cd/gocd/go-agent-${GOCD_VERSION}-${GOCD_BUILD}.zip ; \
-	(cd /opt ; unzip -U /tmp/gocd-agent.zip) ; \
-	rm /tmp/gocd-agent.zip ; \
-	useradd --user-group --create-home go ; \
-	chown -R go:go /opt/go-agent-${GOCD_VERSION} ; \
-	chmod 755 /opt/go-agent-${GOCD_VERSION}/*.sh ; \
-	ln -s /opt/go-agent-${GOCD_VERSION} /opt/go-agent
+RUN curl -L -o /tmp/${GOCD_DEB} http://download.go.cd/gocd-deb/${GOCD_DEB} && \
+	dpkg -i /tmp/${GOCD_DEB} && \
+	rm -f /tmp/${GOCD_DEB} 
+
+# rm /etc/default/go-agent; defaults should come from ENV
+RUN	rm -f /etc/default/go-agent
 
 #--[ BUILD DEPENDENCIES ]------------------------------------------------
 
@@ -47,4 +47,7 @@ RUN curl -L -o /tmp/golang.tgz https://storage.googleapis.com/golang/go1.4.2.lin
 	(cd /usr/local ; tar -xzvf /tmp/golang.tgz) ; \
 	rm /tmp/golang.tgz
 
-CMD [ "/opt/go-agent/agent.sh" ]
+# install all the vcs tools
+RUN apt-get update && apt-get install -y git subversion bzr mercurial
+
+CMD [ "/usr/share/go-agent/agent.sh" ]
