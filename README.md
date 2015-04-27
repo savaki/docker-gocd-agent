@@ -12,8 +12,8 @@ gocd agent with go, fpm, and sass pre-installed
 
 ```
 docker run -d \
-	--volume ${SSH_KEY}:/root/.ssh/id_rsa,ro \
-	--volume ${HOME}/.dockercfg:/root/.dockercfg,ro \
+	--volume ${SSH_KEY}:/root/.ssh/id_rsa:ro \
+	--volume ${HOME}/.dockercfg:/root/.dockercfg:ro \
 	--volume /var/run/docker.sock:/var/run/docker.sock \
 	--env GO_SERVER=${GO_SERVER} \
 	agent:latest 
