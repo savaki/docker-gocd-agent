@@ -40,7 +40,8 @@ RUN	rm -f /etc/default/go-agent
 RUN apt-get update ; \
 	apt-get install -y unzip curl wget ruby1.9.3 build-essential ; \
 	gem install sass ; \
-	gem install fpm
+	gem install fpm ; \
+	gem install rake
 
 # install golang
 RUN curl -L -o /tmp/golang.tgz https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz ; \
@@ -50,4 +51,19 @@ RUN curl -L -o /tmp/golang.tgz https://storage.googleapis.com/golang/go1.4.2.lin
 # install all the vcs tools
 RUN apt-get update && apt-get install -y git subversion bzr mercurial
 
+# connect to various common hosts
+RUN ssh -oStrictHostKeyChecking=no github.com ; \
+	ssh -oStrictHostKeyChecking=no bitbucket.org ; \
+	echo "added common repository host keys"
+
+# install docker
+RUN apt-get update && apt-get install -y docker.io
+
+# install mysql client
+RUN apt-get update && apt-get install -y mysql-client-5.6
+
+# add java and go to path
+ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${JAVA_HOME}/bin:/usr/local/go/bin
+
 CMD [ "/usr/share/go-agent/agent.sh" ]
+
