@@ -62,6 +62,9 @@ RUN apt-get update && apt-get install -y docker.io
 # install mysql client
 RUN apt-get update && apt-get install -y mysql-client-5.6
 
+# install aws cli
+RUN apt-get update && apt-get install -y awscli
+
 # add java and go to path
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${JAVA_HOME}/bin:/usr/local/go/bin
 
