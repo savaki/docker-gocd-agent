@@ -52,9 +52,7 @@ RUN curl -L -o /tmp/golang.tgz https://storage.googleapis.com/golang/go1.4.2.lin
 RUN apt-get update && apt-get install -y git subversion bzr mercurial
 
 # connect to various common hosts
-RUN ssh -oStrictHostKeyChecking=no github.com ; \
-	ssh -oStrictHostKeyChecking=no bitbucket.org ; \
-	echo "added common repository host keys"
+ADD ssh/config /root/.ssh/config
 
 # install docker
 RUN apt-get update && apt-get install -y docker.io

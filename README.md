@@ -26,8 +26,8 @@ export MYSQL_ID=$(docker run -e MYSQL_ROOT_PASSWORD=password -d mysql:5.6)
 
 docker run -d \
 	--link ${MYSQL_ID}:mysql \
-	--volume ${SSH_KEY}:/root/.ssh/id_rsa,ro \
-	--volume ${HOME}/.dockercfg:/root/.dockercfg,ro \
+	--volume ${SSH_KEY}:/root/.ssh/id_rsa:ro \
+	--volume ${HOME}/.dockercfg:/root/.dockercfg:ro \
 	--volume /var/run/docker.sock:/var/run/docker.sock \
 	--env GO_SERVER=${GO_SERVER} \
 	agent:latest 
