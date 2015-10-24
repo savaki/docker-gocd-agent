@@ -44,7 +44,7 @@ RUN apt-get update ; \
 	gem install rake
 
 # install golang
-RUN curl -L -o /tmp/golang.tgz https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz ; \
+RUN curl -L -o /tmp/golang.tgz https://storage.googleapis.com/golang/go1.5.1.linux-amd64.tar.gz ; \
 	(cd /usr/local ; tar -xzvf /tmp/golang.tgz) ; \
 	rm /tmp/golang.tgz
 
