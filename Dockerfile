@@ -59,7 +59,7 @@ RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C0
 	echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker.list ; \
 	apt-get update ; \
 	apt-get install -y apt-transport-https ; \
-	apt-get install -y docker.io
+	apt-get install -y --force-yes docker.io
 
 # install mysql client
 RUN apt-get update && apt-get install -y mysql-client-5.6
