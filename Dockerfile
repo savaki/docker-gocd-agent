@@ -55,7 +55,10 @@ RUN apt-get update && apt-get install -y git subversion bzr mercurial
 ADD ssh/config /root/.ssh/config
 
 # install docker
-RUN apt-get update && apt-get install -y docker.io
+RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D ; \
+	echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker.list ; \
+	apt-get update ; \
+	apt-get install -y docker.io
 
 # install mysql client
 RUN apt-get update && apt-get install -y mysql-client-5.6
