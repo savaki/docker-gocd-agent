@@ -73,5 +73,11 @@ RUN apt-get update && apt-get install -y awscli
 # add java and go to path
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${JAVA_HOME}/bin:/usr/local/go/bin
 
+## add support for slate
+ADD Gemfile /tmp/slate/Gemfile
+RUN cd /tmp/slate && \
+	gem install bundler && \
+	bundle install
+
 CMD [ "/usr/share/go-agent/agent.sh" ]
 
